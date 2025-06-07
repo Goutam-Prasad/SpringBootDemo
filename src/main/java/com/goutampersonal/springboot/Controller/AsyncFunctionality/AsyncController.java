@@ -1,4 +1,4 @@
-package com.goutampersonal.springboot.AsyncFunctionality;
+package com.goutampersonal.springboot.Controller.AsyncFunctionality;
 
 import com.goutampersonal.springboot.Components.AsyncComponent;
 import org.springframework.beans.factory.annotation.Autowired;

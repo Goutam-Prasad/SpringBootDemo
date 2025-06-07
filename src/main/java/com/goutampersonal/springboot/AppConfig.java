@@ -1,11 +1,15 @@
 package com.goutampersonal.springboot;
 
+import com.goutampersonal.springboot.Components.RequestInterceptor;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.*;
@@ -14,10 +18,17 @@ import java.util.concurrent.*;
 /**
  * This is how async thread is being used in production level code
  */
-public class AppConfig implements AsyncConfigurer {
+public class AppConfig implements AsyncConfigurer, WebMvcConfigurer {
     @Autowired
     private AsyncUncaughtExceptionHandler asyncUncaughtExceptionHandler;
+
+    @Autowired
+    RequestInterceptor requestInterceptor;
+
+
+
     private ThreadPoolExecutor poolExecutor;
+
 
     @Bean(name = "newCustomThreadExecutor")
     public Executor newCustomThreadExecutor() {
@@ -29,6 +40,12 @@ public class AppConfig implements AsyncConfigurer {
         return this.asyncUncaughtExceptionHandler;
     }
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry){
+        registry.addInterceptor(requestInterceptor)
+                .addPathPatterns("/requestInterceptor/*")
+                .excludePathPatterns("/requestInterceptor/noInterceptor");
+    }
 
     @Override
     public synchronized Executor getAsyncExecutor() {

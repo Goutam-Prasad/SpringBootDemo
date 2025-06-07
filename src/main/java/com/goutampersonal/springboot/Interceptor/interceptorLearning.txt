@@ -1,0 +1,3 @@
+->What is interceptor
+ Ans-> Interceptors are methods/mediators which runs before or after your actual code
+ TODO://Learn AOP Proxy what is it. Why for proxy async method cannot be called from the same class as it is created
