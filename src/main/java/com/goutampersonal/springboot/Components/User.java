@@ -1,5 +1,6 @@
 package com.goutampersonal.springboot.Components;
 
+import com.goutampersonal.springboot.CustomAnnotations.CustomAnnotation;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,11 @@ public class User {
     @PreDestroy
     public void preDestroyBean(){
         System.out.println("Pre Destroy method for bean called");
+
+    }
+    @CustomAnnotation(intKey = 10,intArrayKey = {1,5},stringArrayKey = {"test","one","two"},stringJKey = "test",classTypeKey = User.class)
+    public void testing(){
+        System.out.println("Called custom annotation method");
     }
 
 }
